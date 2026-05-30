@@ -391,7 +391,7 @@
             // Send data via mailto
             const subject = encodeURIComponent(`[Execution Berlin] New Registration — ${name}`);
             const body = encodeURIComponent(`Name: ${name}\nContact: ${contact}\nTrack: ${track}\nParticipant #: ${count}`);
-            window.location.href = `mailto:YOUR_EMAIL_HERE?subject=${subject}&body=${body}`;
+            window.location.href = `mailto:benjamin.t.karcher@gmail.com?subject=${subject}&body=${body}`;
         }
 
         function handleWaitlist() {
@@ -405,7 +405,7 @@
 
             const subject = encodeURIComponent(`[Execution Berlin] Waitlist — ${name}`);
             const body = encodeURIComponent(`Name: ${name}\nContact: ${contact || 'not provided'}\nWAITLIST`);
-            window.location.href = `mailto:YOUR_EMAIL_HERE?subject=${subject}&body=${body}`;
+            window.location.href = `mailto:benjamin.t.karcher@gmail.com?subject=${subject}&body=${body}`;
         }
 
         function closeModal() {
