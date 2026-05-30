@@ -13,6 +13,133 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@400;700&display=swap"
         rel="stylesheet">
+    <style>
+        .form-section {
+            margin-bottom: 3rem;
+        }
+
+        .form-section h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #c8f000;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #777;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: #111;
+            border: 1px solid #333;
+            color: #e8e8e8;
+            padding: 0.85rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #c8f000;
+        }
+
+        .track-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .track-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: #111;
+            border: 1px solid #333;
+            padding: 1rem;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .track-option:hover {
+            border-color: #555;
+        }
+
+        .track-option input[type="radio"] {
+            margin-top: 2px;
+            accent-color: #c8f000;
+            flex-shrink: 0;
+        }
+
+        .track-option.selected {
+            border-color: #c8f000;
+        }
+
+        .track-label {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .track-label strong {
+            display: block;
+            color: #fff;
+        }
+
+        .track-label span {
+            color: #777;
+            font-size: 0.8rem;
+        }
+
+        .waitlist-block {
+            border: 1px dashed #333;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background: #0a0a0a;
+        }
+
+        .waitlist-block p {
+            color: #777;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .waitlist-btn {
+            background: transparent;
+            border: 1px solid #555;
+            color: #999;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .waitlist-btn:hover {
+            border-color: #c8f000;
+            color: #c8f000;
+        }
+
+        #submit-error {
+            display: none;
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,42 +152,93 @@
             </div>
             <p class="eyebrow">Berlin / Online</p>
             <h1 class="title">EXECUTION<br><em>BERLIN</em></h1>
-            <p class="slogan" id="slogan">„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."</p>
+            <p class="slogan" id="slogan">"None of us want to. But somehow it has to move forward."</p>
         </div>
 
         <section class="stats">
             <div class="stat-item">
-                <span class="stat-value">1× / WOCHE</span>
-                <span class="stat-label" id="label-weeks">6 Wochen</span>
+                <span class="stat-value">1× / WEEK</span>
+                <span class="stat-label" id="label-weeks">6 Weeks</span>
             </div>
             <div class="stat-item">
-                <span class="stat-value">2 STD</span>
-                <span class="stat-label" id="label-session">Pro Session</span>
+                <span class="stat-value">2 HRS</span>
+                <span class="stat-label" id="label-session">Per Session</span>
             </div>
             <div class="stat-item">
                 <span class="stat-value">6 MAX</span>
-                <span class="stat-label" id="label-people">Personen</span>
+                <span class="stat-label" id="label-people">People</span>
             </div>
         </section>
 
         <section class="rule-block">
-            <p class="rule-title" id="deal-label">DER DEAL</p>
-            <div id="deal-text-de">
+            <p class="rule-title" id="deal-label">THE DEAL</p>
+            <div id="deal-text-de" style="display:none;">
                 <p><strong>60€ Pfand-Einsatz-Mischung.</strong></p>
                 <p>Erscheine zu mindestens 5 von 6 Terminen und du bekommst <strong>30€ digital auf die Kralle</strong>
                     zurück.</p>
                 <p class="fine-print">Wird keiner reich von, keiner arm..</p>
             </div>
-            <div id="deal-text-en" style="display:none;">
+            <div id="deal-text-en">
                 <p><strong>€60 deposit.</strong></p>
                 <p>Show up to at least 5 of 6 sessions and get <strong>€30 back digitally</strong>.</p>
                 <p class="fine-print">No one gets rich from this. No one goes broke.</p>
             </div>
         </section>
 
-        <button class="cta" onclick="register()" id="cta-btn">Teilnehmen</button>
+        <!-- REGISTRATION FORM -->
+        <section class="form-section">
+            <h3 id="form-title">Register Your Spot</h3>
+            <form id="reg-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name" id="label-name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact" id="label-contact">Email or Phone (WhatsApp / Signal)</label>
+                    <input type="text" id="contact" name="contact" placeholder="email@example.com or +49..." required>
+                </div>
+                <div class="form-group">
+                    <label id="label-track">Which track works for you?</label>
+                    <div class="track-options">
+                        <label class="track-option" id="track-a-wrap">
+                            <input type="radio" name="track" value="A" required>
+                            <div class="track-label">
+                                <strong id="track-a-title">Track A — Wednesdays, 10:00–12:00</strong>
+                                <span id="track-a-sub">6-Week Morning Sprint</span>
+                            </div>
+                        </label>
+                        <label class="track-option" id="track-b-wrap">
+                            <input type="radio" name="track" value="B">
+                            <div class="track-label">
+                                <strong id="track-b-title">Track B — Thursdays, 14:00–16:00</strong>
+                                <span id="track-b-sub">6-Week Afternoon Sprint</span>
+                            </div>
+                        </label>
+                        <label class="track-option" id="track-c-wrap">
+                            <input type="radio" name="track" value="C">
+                            <div class="track-label">
+                                <strong id="track-c-title">Both tracks work for me</strong>
+                                <span id="track-c-sub">I'm flexible — put me wherever there's space</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <p id="submit-error">Please fill in all fields.</p>
+                <button type="submit" class="cta" id="cta-btn" style="margin-top:1.5rem;">Join</button>
+            </form>
+        </section>
+
+        <!-- WAITLIST BLOCK -->
+        <section class="waitlist-block">
+            <p id="waitlist-text">The current round is full? Drop your details and I'll reach out when the next one
+                starts.</p>
+            <button class="waitlist-btn" id="waitlist-btn" onclick="handleWaitlist()">Group is Full — Join
+                Waitlist</button>
+        </section>
+
     </main>
 
+    <!-- CONFIRMATION MODAL -->
     <div id="modal-overlay">
         <div id="modal-content">
             <button class="close-btn" onclick="closeModal()">✕</button>
@@ -69,66 +247,96 @@
     </div>
 
     <script>
-        let currentLang = 'de';
+        let currentLang = 'en';
+
+        // Track selection highlight
+        document.querySelectorAll('.track-option input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.querySelectorAll('.track-option').forEach(el => el.classList.remove('selected'));
+                radio.closest('.track-option').classList.add('selected');
+            });
+        });
 
         const copy = {
-            de: {
-                slogan: '„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."',
-                labelWeeks: '6 Wochen',
-                labelSession: 'Pro Session',
-                labelPeople: 'Personen',
-                dealLabel: 'DER DEAL',
-                ctaBtn: 'Teilnehmen',
-                ordinals: ['erste', 'zweite', 'dritte', 'vierte', 'fünfte'],
-                msg: (n) => `
-                    <h2>Danke!</h2>
-                    <p>Du bist die/der <strong>${copy.de.ordinals[n - 1]} Teilnehmende</strong> für diese Runde.</p>
-                    <p>Sobald die Gruppe voll ist (max. 6), melde ich mich mit:</p>
-                    <ul>
-                        <li>Startermin & Wochentag</li>
-                        <li>Bankverbindung (60€ Einwurf – Wise)</li>
-                        <li>Einwahldaten / Adresse</li>
-                    </ul>
-                    <p>Ich melde mich, sobald wir vollzählig sind.</p>`,
-                msgFull: () => `
-                    <h2>Die Gruppe ist voll.</h2>
-                    <p>Du bist die/der <strong>sechste und letzte Teilnehmende</strong>. Wir legen zeitnah los.</p>
-                    <p>Du bekommst in Kürze:</p>
-                    <ul>
-                        <li>Startermin & Wochentag</li>
-                        <li>Bankverbindung (60€ Einwurf – Wise)</li>
-                        <li>Einwahldaten / Adresse</li>
-                    </ul>
-                    <p>Ich melde mich direkt bei dir und den anderen.</p>`
-            },
             en: {
                 slogan: '"None of us want to. But somehow it has to move forward."',
-                labelWeeks: '6 Weeks',
-                labelSession: 'Per Session',
-                labelPeople: 'People Max',
-                dealLabel: 'THE DEAL',
-                ctaBtn: 'Join',
+                labelWeeks: '6 Weeks', labelSession: 'Per Session', labelPeople: 'People',
+                dealLabel: 'THE DEAL', ctaBtn: 'Join',
+                formTitle: 'Register Your Spot',
+                labelName: 'Name', labelContact: 'Email or Phone (WhatsApp / Signal)',
+                labelTrack: 'Which track works for you?',
+                trackATitle: 'Track A — Wednesdays, 10:00–12:00', trackASub: '6-Week Morning Sprint',
+                trackBTitle: 'Track B — Thursdays, 14:00–16:00', trackBSub: '6-Week Afternoon Sprint',
+                trackCTitle: 'Both tracks work for me', trackCSub: "I'm flexible — put me wherever there's space",
+                waitlistText: "The current round is full? Drop your details and I'll reach out when the next one starts.",
+                waitlistBtn: 'Group is Full — Join Waitlist',
                 ordinals: ['1st', '2nd', '3rd', '4th', '5th'],
-                msg: (n) => `
-                    <h2>Thanks!</h2>
-                    <p>You are the <strong>${copy.en.ordinals[n - 1]} participant</strong> for this round.</p>
-                    <p>Once the group is full (max 6), I'll reach out with:</p>
+                trackNames: { A: 'Track A (Wed, 10–12)', B: 'Track B (Thu, 14–16)', C: 'Both tracks' },
+                msg: (name, track, n) => `
+                    <h2>You're in.</h2>
+                    <p>Hey <strong>${name}</strong> — you're the <strong>${copy.en.ordinals[n - 1]} participant</strong>.</p>
+                    <p>Preference noted: <strong>${copy.en.trackNames[track]}</strong>.</p>
+                    <p style="margin-top:1rem">Once the group is full (max 6), I'll contact you with:</p>
                     <ul>
-                        <li>Start date & weekday</li>
-                        <li>Payment details (€60 deposit – Wise)</li>
-                        <li>Login / address for sessions</li>
+                        <li>Confirmed start date & weekday</li>
+                        <li>Payment details (€60 deposit — Wise)</li>
+                        <li>Session login / location</li>
                     </ul>
-                    <p>I'll be in touch once we're all in.</p>`,
-                msgFull: () => `
+                    <p style="margin-top:1rem">Stay loose.</p>`,
+                msgFull: (name, track) => `
                     <h2>Group is full.</h2>
-                    <p>You are the <strong>6th and final participant</strong>. We start soon.</p>
-                    <p>You'll receive shortly:</p>
+                    <p>Hey <strong>${name}</strong> — you're the <strong>6th and final participant</strong>. We're starting soon.</p>
+                    <p>Preference noted: <strong>${copy.en.trackNames[track]}</strong>.</p>
+                    <p style="margin-top:1rem">You'll receive shortly:</p>
                     <ul>
-                        <li>Start date & weekday</li>
-                        <li>Payment details (€60 deposit – Wise)</li>
-                        <li>Login / address for sessions</li>
+                        <li>Confirmed start date & weekday</li>
+                        <li>Payment details (€60 deposit — Wise)</li>
+                        <li>Session login / location</li>
                     </ul>
-                    <p>I'll message you and the group to lock in the start.</p>`
+                    <p style="margin-top:1rem">I'll message everyone to lock in the start.</p>`,
+                waitlistMsg: (name) => `
+                    <h2>Waitlisted.</h2>
+                    <p>Got it, <strong>${name}</strong>. I'll reach out as soon as a new round is confirmed.</p>`
+            },
+            de: {
+                slogan: '„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."',
+                labelWeeks: '6 Wochen', labelSession: 'Pro Session', labelPeople: 'Personen',
+                dealLabel: 'DER DEAL', ctaBtn: 'Teilnehmen',
+                formTitle: 'Platz reservieren',
+                labelName: 'Name', labelContact: 'Email oder Telefon (WhatsApp / Signal)',
+                labelTrack: 'Welcher Track passt?',
+                trackATitle: 'Track A — Mittwoch, 10:00–12:00', trackASub: '6-Wochen Morgensprint',
+                trackBTitle: 'Track B — Donnerstag, 14:00–16:00', trackBSub: '6-Wochen Nachmittagssprint',
+                trackCTitle: 'Beide Tracks gehen', trackCSub: 'Ich bin flexibel – füll mich ein wo Platz ist',
+                waitlistText: 'Diese Runde ist voll? Lass deine Kontaktdaten da und ich melde mich wenn die nächste startet.',
+                waitlistBtn: 'Gruppe voll — zur Warteliste',
+                ordinals: ['erste', 'zweite', 'dritte', 'vierte', 'fünfte'],
+                trackNames: { A: 'Track A (Mi, 10–12)', B: 'Track B (Do, 14–16)', C: 'Beide Tracks' },
+                msg: (name, track, n) => `
+                    <h2>Du bist dabei.</h2>
+                    <p>Hey <strong>${name}</strong> — du bist die/der <strong>${copy.de.ordinals[n - 1]} Teilnehmende</strong>.</p>
+                    <p>Präferenz notiert: <strong>${copy.de.trackNames[track]}</strong>.</p>
+                    <p style="margin-top:1rem">Sobald die Gruppe voll ist (max. 6), melde ich mich mit:</p>
+                    <ul>
+                        <li>Startermin & Wochentag</li>
+                        <li>Bankverbindung (60€ – Wise)</li>
+                        <li>Einwahldaten / Adresse</li>
+                    </ul>
+                    <p style="margin-top:1rem">Bis dann.</p>`,
+                msgFull: (name, track) => `
+                    <h2>Gruppe ist voll.</h2>
+                    <p>Hey <strong>${name}</strong> — du bist die/der <strong>sechste und letzte Teilnehmende</strong>. Wir starten bald.</p>
+                    <p>Präferenz notiert: <strong>${copy.de.trackNames[track]}</strong>.</p>
+                    <p style="margin-top:1rem">Du bekommst in Kürze:</p>
+                    <ul>
+                        <li>Startermin & Wochentag</li>
+                        <li>Bankverbindung (60€ – Wise)</li>
+                        <li>Einwahldaten / Adresse</li>
+                    </ul>
+                    <p style="margin-top:1rem">Ich melde mich bei allen um den Start zu fixieren.</p>`,
+                waitlistMsg: (name) => `
+                    <h2>Warteliste.</h2>
+                    <p>Alles klar, <strong>${name}</strong>. Ich melde mich sobald eine neue Runde startet.</p>`
             }
         };
 
@@ -141,27 +349,71 @@
             document.getElementById('label-people').textContent = c.labelPeople;
             document.getElementById('deal-label').textContent = c.dealLabel;
             document.getElementById('cta-btn').textContent = c.ctaBtn;
+            document.getElementById('form-title').textContent = c.formTitle;
+            document.getElementById('label-name').textContent = c.labelName;
+            document.getElementById('label-contact').textContent = c.labelContact;
+            document.getElementById('label-track').textContent = c.labelTrack;
+            document.getElementById('track-a-title').textContent = c.trackATitle;
+            document.getElementById('track-a-sub').textContent = c.trackASub;
+            document.getElementById('track-b-title').textContent = c.trackBTitle;
+            document.getElementById('track-b-sub').textContent = c.trackBSub;
+            document.getElementById('track-c-title').textContent = c.trackCTitle;
+            document.getElementById('track-c-sub').textContent = c.trackCSub;
+            document.getElementById('waitlist-text').textContent = c.waitlistText;
+            document.getElementById('waitlist-btn').textContent = c.waitlistBtn;
             document.getElementById('deal-text-de').style.display = lang === 'de' ? '' : 'none';
             document.getElementById('deal-text-en').style.display = lang === 'en' ? '' : 'none';
             document.getElementById('btn-de').classList.toggle('active', lang === 'de');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
 
-        function register() {
+        function handleSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const contact = document.getElementById('contact').value.trim();
+            const track = document.querySelector('input[name="track"]:checked')?.value;
+            if (!name || !contact || !track) {
+                document.getElementById('submit-error').style.display = 'block';
+                return;
+            }
+            document.getElementById('submit-error').style.display = 'none';
+
             let count = parseInt(localStorage.getItem('berlin-count') || '0');
             count++;
             if (count > 6) count = 1;
             localStorage.setItem('berlin-count', count);
 
             const c = copy[currentLang];
-            const html = count < 6 ? c.msg(count) : c.msgFull();
+            const html = count < 6 ? c.msg(name, track, count) : c.msgFull(name, track);
             document.getElementById('registration-text').innerHTML = html;
             document.getElementById('modal-overlay').style.display = 'flex';
+
+            // Send data via mailto
+            const subject = encodeURIComponent(`[Execution Berlin] New Registration — ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nContact: ${contact}\nTrack: ${track}\nParticipant #: ${count}`);
+            window.location.href = `mailto:YOUR_EMAIL_HERE?subject=${subject}&body=${body}`;
+        }
+
+        function handleWaitlist() {
+            const name = prompt(currentLang === 'de' ? 'Dein Name:' : 'Your name:');
+            const contact = prompt(currentLang === 'de' ? 'Email oder Telefon:' : 'Email or phone:');
+            if (!name) return;
+
+            const c = copy[currentLang];
+            document.getElementById('registration-text').innerHTML = c.waitlistMsg(name);
+            document.getElementById('modal-overlay').style.display = 'flex';
+
+            const subject = encodeURIComponent(`[Execution Berlin] Waitlist — ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nContact: ${contact || 'not provided'}\nWAITLIST`);
+            window.location.href = `mailto:YOUR_EMAIL_HERE?subject=${subject}&body=${body}`;
         }
 
         function closeModal() {
             document.getElementById('modal-overlay').style.display = 'none';
         }
+
+        // Start in English
+        setLang('en');
     </script>
 
 </body>
