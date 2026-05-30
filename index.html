@@ -99,12 +99,50 @@
         #confirmation strong { color: #fff; }
         #confirmation ul { margin: 0.75rem 0; padding-left: 1.5rem; color: #ccc; }
         #confirmation li { margin-bottom: 0.5rem; }
+
+        /* Info Modal & Button */
+        .info-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 3px solid #c8f000;
+            background-color: #000;
+            color: #c8f000;
+            font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+            font-size: 1.2rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.15s, color 0.15s;
+            z-index: 10;
+        }
+        .info-btn:hover {
+            background-color: #c8f000;
+            color: #000;
+        }
+        #info-overlay {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.93); z-index: 1000;
+            justify-content: center; align-items: center; padding: 2rem;
+        }
+        #info-box {
+            background: #111; border: 1px solid #c8f000;
+            padding: 2.5rem; max-width: 480px; width: 100%;
+            position: relative; font-family: 'Inter', sans-serif;
+        }
     </style>
 </head>
 <body>
 
     <main>
         <div class="header">
+            <button class="info-btn" onclick="openInfo()">?</button>
             <div class="lang-toggle">
                 <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
                 <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -132,13 +170,13 @@
         <section class="rule-block">
             <p class="rule-title" id="deal-label">THE DEAL</p>
             <div id="deal-text-de" style="display:none;">
-                <p><strong>60€ Pfand-Einsatz-Mischung.</strong></p>
-                <p>Erscheine zu mindestens 5 von 6 Terminen und du bekommst <strong>30€ digital auf die Kralle</strong> zurück.</p>
+                <p><strong>90€ Pfand-Einsatz-Mischung.</strong></p>
+                <p>Erscheine zu mindestens 5 von 6 Terminen und du bekommst <strong>45€ digital auf die Kralle</strong> zurück.</p>
                 <p class="fine-print">Wird keiner reich von, keiner arm..</p>
             </div>
             <div id="deal-text-en">
-                <p><strong>€60 deposit.</strong></p>
-                <p>Show up to at least 5 of 6 séances and get <strong>€30 back digitally</strong>.</p>
+                <p><strong>€90 deposit.</strong></p>
+                <p>Show up to at least 5 of 6 séances and get <strong>€45 back digitally</strong>.</p>
                 <p class="fine-print">No one gets rich from this. No one goes broke.</p>
             </div>
         </section>
@@ -214,6 +252,15 @@
         </div>
     </div>
 
+    <!-- INFO MODAL -->
+    <div id="info-overlay">
+        <div id="info-box">
+            <button onclick="closeInfo()" style="position:absolute;top:1rem;right:1.5rem;background:none;border:none;color:#c8f000;font-size:1.5rem;cursor:pointer;font-weight:900;">✕</button>
+            <p class="modal-title" id="info-title" style="color:#c8f000; font-size:1.1rem; border-bottom:2px solid #c8f000; padding-bottom:0.5rem; margin-bottom:1.5rem;"></p>
+            <p id="info-text" style="line-height:1.6; font-size:1rem; font-weight:500; color:#fff;"></p>
+        </div>
+    </div>
+
     <!-- WAITLIST MODAL -->
     <div id="waitlist-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.93); z-index:1000; justify-content:center; align-items:center; padding:2rem;">
         <div style="background:#111; border:1px solid #444; padding:2.5rem; max-width:480px; width:100%; position:relative; font-family:Inter,sans-serif;">
@@ -248,9 +295,7 @@
             en: {
                 slogan: '"None of us want to. But somehow it has to move forward."',
                 labelWeeks: '6 Weeks', labelSession: 'Per Séance', labelPeople: 'People',
-                dealLabel: 'THE DEAL', ctaBtn: 'Join',
-                waitlistText: "Group is full? Leave your details and I'll reach out when a new round starts.",
-                waitlistBtn: 'Group is Full — Join Waitlist',
+                dealLabel: 'THE DEAL',
                 step1Label: 'Which track works for you?',
                 step2Label: 'Your contact details',
                 trackATitle: 'Track A — Wednesdays, 10:00–12:00', trackASub: '6-Week Morning Sprint',
@@ -262,6 +307,14 @@
                 wlabelName: 'Name', wlabelContact: 'Email or Phone',
                 trackNames: { A: 'Track A (Wed 10–12)', B: 'Track B (Thu 14–16)', C: 'Both tracks' },
                 ordinals: ['1st', '2nd', '3rd', '4th', '5th'],
+                waitlistTextEmpty: "Group is full? Leave your details and I'll reach out when a new round starts.",
+                waitlistTextFull: "This round is fully booked. Join the waitlist and be the first to know when the next round starts.",
+                waitlistBtnEmpty: "For future cohorts",
+                waitlistBtnFull: "Join the Waitlist",
+                ctaBtnEmpty: "Join",
+                ctaBtnFull: "Full — Waitlist",
+                infoTitle: "What's this?",
+                infoText: "A focused co-working séance. Online. But we also want to experience something: We work focused on our projects for 2 hours (cameras on, mics off), but meet before and after for a short, moderated chat. No isolated grinding—just collaborative momentum. The deposit makes sure everyone actually shows up.",
                 msg: (name, track, n) => `
                     <h2>You're in.</h2>
                     <p>Hey <strong>${name}</strong> — you're the <strong>${copy.en.ordinals[n-1]} participant</strong>.</p>
@@ -269,7 +322,7 @@
                     <p style="margin-top:1rem">Once the group is full (max 6), I'll reach out with:</p>
                     <ul>
                         <li>Confirmed start date & weekday</li>
-                        <li>Payment details (€60 deposit — Wise)</li>
+                        <li>Payment details (€90 deposit — Wise)</li>
                         <li>Séance login / location</li>
                     </ul>`,
                 msgFull: (name, track) => `
@@ -279,7 +332,7 @@
                     <p style="margin-top:1rem">You'll receive shortly:</p>
                     <ul>
                         <li>Confirmed start date & weekday</li>
-                        <li>Payment details (€60 deposit — Wise)</li>
+                        <li>Payment details (€90 deposit — Wise)</li>
                         <li>Séance login / location</li>
                     </ul>`,
                 waitlistConfirm: (name) => `<h2>Noted.</h2><p>Got it, <strong>${name}</strong>. I'll reach out when the next round opens.</p>`
@@ -287,9 +340,7 @@
             de: {
                 slogan: '„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."',
                 labelWeeks: '6 Wochen', labelSession: 'Pro Séance', labelPeople: 'Personen',
-                dealLabel: 'DER DEAL', ctaBtn: 'Teilnehmen',
-                waitlistText: 'Gruppe voll? Lass deine Kontaktdaten da und ich melde mich wenn die nächste Runde startet.',
-                waitlistBtn: 'Gruppe voll — Warteliste',
+                dealLabel: 'DER DEAL',
                 step1Label: 'Welcher Termin passt dir?',
                 step2Label: 'Deine Kontaktdaten',
                 trackATitle: 'Track A — Mittwoch, 10:00–12:00', trackASub: '6-Wochen Morgensprint',
@@ -301,6 +352,14 @@
                 wlabelName: 'Name', wlabelContact: 'Email oder Telefon',
                 trackNames: { A: 'Track A (Mi 10–12)', B: 'Track B (Do 14–16)', C: 'Beide Tracks' },
                 ordinals: ['erste', 'zweite', 'dritte', 'vierte', 'fünfte'],
+                waitlistTextEmpty: "Noch freie Plätze — du hast gerade keine Zeit oder willst erst bei der nächsten Runde mitmachen? Lass deine Kontaktdaten da.",
+                waitlistTextFull: "Diese Runde ist voll besetzt. Trag dich in die Warteliste ein und erfahre als Erste/r, wenn wir die nächste Runde starten.",
+                waitlistBtnEmpty: "Für spätere Runden eintragen",
+                waitlistBtnFull: "Auf die Warteliste setzen",
+                ctaBtnEmpty: "Teilnehmen",
+                ctaBtnFull: "Ausgebucht / Warteliste",
+                infoTitle: "Was'n das?",
+                infoText: "Es ist eine fokussierte Co-Working Séance. Online. Aber wir wollen doch was erleben: Wir arbeiten 2 Stunden lang konzentriert an unseren Projekten (Kameras an, Mics aus), treffen uns aber davor und danach für einen kurzen, moderierten Austausch. Keine einsame Isolation, sondern produktives Miteinander. Der Pfand sorgt dafür, dass alle auch wirklich erscheinen.",
                 msg: (name, track, n) => `
                     <h2>Du bist dabei.</h2>
                     <p>Hey <strong>${name}</strong> — du bist die/der <strong>${copy.de.ordinals[n-1]} Teilnehmende</strong>.</p>
@@ -308,7 +367,7 @@
                     <p style="margin-top:1rem">Sobald die Gruppe voll ist (max. 6), melde ich mich mit:</p>
                     <ul>
                         <li>Startermin & Wochentag</li>
-                        <li>Bankverbindung (60€ – Wise)</li>
+                        <li>Bankverbindung (90€ – Wise)</li>
                         <li>Einwahldaten / Adresse</li>
                     </ul>`,
                 msgFull: (name, track) => `
@@ -318,7 +377,7 @@
                     <p style="margin-top:1rem">Du bekommst in Kürze:</p>
                     <ul>
                         <li>Startermin & Wochentag</li>
-                        <li>Bankverbindung (60€ – Wise)</li>
+                        <li>Bankverbindung (90€ – Wise)</li>
                         <li>Einwahldaten / Adresse</li>
                     </ul>`,
                 waitlistConfirm: (name) => `<h2>Notiert.</h2><p>Alles klar, <strong>${name}</strong>. Ich melde mich wenn eine neue Runde startet.</p>`
@@ -333,9 +392,11 @@
             document.getElementById('label-session').textContent = c.labelSession;
             document.getElementById('label-people').textContent = c.labelPeople;
             document.getElementById('deal-label').textContent = c.dealLabel;
-            document.getElementById('cta-btn').textContent = c.ctaBtn;
-            document.getElementById('waitlist-text').textContent = c.waitlistText;
-            document.getElementById('waitlist-btn').textContent = c.waitlistBtn;
+            
+            // Set popup texts
+            document.getElementById('info-title').textContent = c.infoTitle;
+            document.getElementById('info-text').textContent = c.infoText;
+
             document.getElementById('step1-label').textContent = c.step1Label;
             document.getElementById('step2-label').textContent = c.step2Label;
             document.getElementById('track-a-title').textContent = c.trackATitle;
@@ -356,6 +417,8 @@
             document.getElementById('deal-text-en').style.display = lang === 'en' ? '' : 'none';
             document.getElementById('btn-de').classList.toggle('active', lang === 'de');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            updateWaitlistUI();
         }
 
         function showStep(id) {
@@ -395,6 +458,7 @@
             let count = parseInt(localStorage.getItem('berlin-count') || '0');
             count++; if (count > 6) count = 1;
             localStorage.setItem('berlin-count', count);
+            updateWaitlistUI();
 
             const c = copy[currentLang];
             document.getElementById('confirmation').innerHTML = count < 6 ? c.msg(name, selectedTrack, count) : c.msgFull(name, selectedTrack);
@@ -416,6 +480,49 @@
             const subject = encodeURIComponent(`[Execution Berlin] Waitlist — ${name}`);
             const body = encodeURIComponent(`Name: ${name}\nContact: ${contact}\nWAITLIST`);
             window.location.href = `mailto:benjamin.t.karcher@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        function openInfo() {
+            document.getElementById('info-overlay').style.display = 'flex';
+        }
+        function closeInfo() {
+            document.getElementById('info-overlay').style.display = 'none';
+        }
+
+        function updateWaitlistUI() {
+            const count = parseInt(localStorage.getItem('berlin-count') || '0');
+            const ctaBtn = document.getElementById('cta-btn');
+            const infoText = document.getElementById('waitlist-text');
+            const triggerBtn = document.getElementById('waitlist-btn');
+            const c = copy[currentLang];
+
+            if (!c) return;
+
+            if (count >= 6) {
+                if (ctaBtn) {
+                    ctaBtn.textContent = c.ctaBtnFull;
+                    ctaBtn.style.backgroundColor = "#555";
+                    ctaBtn.style.border = "1px solid #555";
+                }
+                if (infoText) {
+                    infoText.textContent = c.waitlistTextFull;
+                }
+                if (triggerBtn) {
+                    triggerBtn.textContent = c.waitlistBtnFull;
+                }
+            } else {
+                if (ctaBtn) {
+                    ctaBtn.textContent = c.ctaBtnEmpty;
+                    ctaBtn.style.backgroundColor = "";
+                    ctaBtn.style.border = "";
+                }
+                if (infoText) {
+                    infoText.textContent = c.waitlistTextEmpty;
+                }
+                if (triggerBtn) {
+                    triggerBtn.textContent = c.waitlistBtnEmpty;
+                }
+            }
         }
 
         // Init English
