@@ -1,147 +1,106 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EXECUTION BERLIN | Work Session Collective</title>
-    <meta name="description"
-        content="6 weeks of focused work. Once a week. €60 in, €30 back if you show up. Berlin / Online.">
+    <meta name="description" content="6 weeks of focused work. Once a week. €60 in, €30 back if you show up. Berlin / Online.">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .form-section {
-            margin-bottom: 3rem;
+        /* --- MODAL --- */
+        #modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.93);
+            z-index: 1000;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+            overflow-y: auto;
         }
-
-        .form-section h3 {
+        #modal-content {
+            background: #111;
+            border: 1px solid #c8f000;
+            padding: 2.5rem;
+            max-width: 580px;
+            width: 100%;
+            margin-top: 2rem;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+        .close-btn {
+            position: absolute; top: 1rem; right: 1.5rem;
+            cursor: pointer; font-weight: 900; font-size: 1.5rem;
+            color: #c8f000; background: none; border: none;
+        }
+        /* --- FORM --- */
+        .modal-title {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: #c8f000;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #777;
-            margin-bottom: 0.4rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            background: #111;
-            border: 1px solid #333;
-            color: #e8e8e8;
-            padding: 0.85rem 1rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            border-color: #c8f000;
-        }
-
-        .track-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .track-option {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            background: #111;
-            border: 1px solid #333;
-            padding: 1rem;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .track-option:hover {
-            border-color: #555;
-        }
-
-        .track-option input[type="radio"] {
-            margin-top: 2px;
-            accent-color: #c8f000;
-            flex-shrink: 0;
-        }
-
-        .track-option.selected {
-            border-color: #c8f000;
-        }
-
-        .track-label {
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .track-label strong {
-            display: block;
-            color: #fff;
-        }
-
-        .track-label span {
-            color: #777;
-            font-size: 0.8rem;
-        }
-
-        .waitlist-block {
-            border: 1px dashed #333;
-            padding: 1.5rem;
             margin-bottom: 2rem;
-            background: #0a0a0a;
         }
+        .step { display: none; }
+        .step.active { display: block; }
 
-        .waitlist-block p {
-            color: #777;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
+        .track-options { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+        .track-option {
+            display: flex; align-items: flex-start; gap: 0.75rem;
+            background: #0a0a0a; border: 1px solid #333;
+            padding: 1rem; cursor: pointer; transition: border-color 0.2s;
         }
+        .track-option:hover { border-color: #555; }
+        .track-option.selected { border-color: #c8f000; }
+        .track-option input[type="radio"] { margin-top: 2px; accent-color: #c8f000; flex-shrink: 0; }
+        .track-label strong { display: block; color: #fff; font-size: 0.95rem; }
+        .track-label span { color: #777; font-size: 0.8rem; }
 
-        .waitlist-btn {
-            background: transparent;
-            border: 1px solid #555;
-            color: #999;
-            padding: 0.75rem 1.5rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s;
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block; font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 0.1em; color: #777; margin-bottom: 0.4rem;
         }
+        .form-group input {
+            width: 100%; background: #0a0a0a; border: 1px solid #333;
+            color: #e8e8e8; padding: 0.85rem 1rem;
+            font-family: 'Inter', sans-serif; font-size: 1rem; outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus { border-color: #c8f000; }
 
-        .waitlist-btn:hover {
-            border-color: #c8f000;
-            color: #c8f000;
+        .modal-btn {
+            display: block; width: 100%; background: #c8f000; color: #000;
+            border: none; padding: 1.2rem; font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900; font-size: 1.1rem; text-transform: uppercase;
+            cursor: pointer; transition: background 0.2s; margin-top: 1.5rem;
         }
+        .modal-btn:hover { background: #fff; }
+        .modal-btn.secondary {
+            background: transparent; color: #c8f000; border: 1px solid #c8f000;
+            margin-top: 0.75rem; font-size: 0.85rem;
+        }
+        .modal-btn.secondary:hover { background: #c8f000; color: #000; }
 
-        #submit-error {
-            display: none;
-            color: #ff6b6b;
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
+        .error-msg { color: #ff6b6b; font-size: 0.8rem; margin-top: 0.5rem; display: none; }
+
+        /* Confirmation */
+        #confirmation h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem; font-weight: 900; text-transform: uppercase;
+            color: #c8f000; margin-bottom: 1.5rem;
         }
+        #confirmation p { line-height: 1.8; margin-bottom: 0.75rem; color: #ccc; }
+        #confirmation strong { color: #fff; }
+        #confirmation ul { margin: 0.75rem 0; padding-left: 1.5rem; color: #ccc; }
+        #confirmation li { margin-bottom: 0.5rem; }
     </style>
 </head>
-
 <body>
 
     <main>
@@ -174,8 +133,7 @@
             <p class="rule-title" id="deal-label">THE DEAL</p>
             <div id="deal-text-de" style="display:none;">
                 <p><strong>60€ Pfand-Einsatz-Mischung.</strong></p>
-                <p>Erscheine zu mindestens 5 von 6 Terminen und du bekommst <strong>30€ digital auf die Kralle</strong>
-                    zurück.</p>
+                <p>Erscheine zu mindestens 5 von 6 Terminen und du bekommst <strong>30€ digital auf die Kralle</strong> zurück.</p>
                 <p class="fine-print">Wird keiner reich von, keiner arm..</p>
             </div>
             <div id="deal-text-en">
@@ -185,75 +143,104 @@
             </div>
         </section>
 
-        <!-- REGISTRATION FORM -->
-        <section class="form-section">
-            <h3 id="form-title">Register Your Spot</h3>
-            <form id="reg-form" onsubmit="handleSubmit(event)">
-                <div class="form-group">
-                    <label for="name" id="label-name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Your name" required>
-                </div>
-                <div class="form-group">
-                    <label for="contact" id="label-contact">Email or Phone (WhatsApp / Signal)</label>
-                    <input type="text" id="contact" name="contact" placeholder="email@example.com or +49..." required>
-                </div>
-                <div class="form-group">
-                    <label id="label-track">Which track works for you?</label>
-                    <div class="track-options">
-                        <label class="track-option" id="track-a-wrap">
-                            <input type="radio" name="track" value="A" required>
-                            <div class="track-label">
-                                <strong id="track-a-title">Track A — Wednesdays, 10:00–12:00</strong>
-                                <span id="track-a-sub">6-Week Morning Sprint</span>
-                            </div>
-                        </label>
-                        <label class="track-option" id="track-b-wrap">
-                            <input type="radio" name="track" value="B">
-                            <div class="track-label">
-                                <strong id="track-b-title">Track B — Thursdays, 14:00–16:00</strong>
-                                <span id="track-b-sub">6-Week Afternoon Sprint</span>
-                            </div>
-                        </label>
-                        <label class="track-option" id="track-c-wrap">
-                            <input type="radio" name="track" value="C">
-                            <div class="track-label">
-                                <strong id="track-c-title">Both tracks work for me</strong>
-                                <span id="track-c-sub">I'm flexible — put me wherever there's space</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-                <p id="submit-error">Please fill in all fields.</p>
-                <button type="submit" class="cta" id="cta-btn" style="margin-top:1.5rem;">Join</button>
-            </form>
-        </section>
+        <button class="cta" id="cta-btn" onclick="openForm()">Join</button>
 
-        <!-- WAITLIST BLOCK -->
-        <section class="waitlist-block">
-            <p id="waitlist-text">The current round is full? Drop your details and I'll reach out when the next one
-                starts.</p>
-            <button class="waitlist-btn" id="waitlist-btn" onclick="handleWaitlist()">Group is Full — Join
-                Waitlist</button>
-        </section>
-
+        <div class="waitlist-block" style="margin-top:1.5rem; border:1px dashed #222; padding:1.5rem; background:#0a0a0a;">
+            <p id="waitlist-text" style="color:#666; font-size:0.85rem; line-height:1.6; margin-bottom:1rem;">
+                Group is full? Leave your details and I'll reach out when a new round starts.
+            </p>
+            <button class="cta" id="waitlist-btn" onclick="openWaitlist()" style="background:transparent; border:1px solid #444; color:#888; font-size:0.85rem; padding:1rem;">
+                Group is Full — Join Waitlist
+            </button>
+        </div>
     </main>
 
-    <!-- CONFIRMATION MODAL -->
+    <!-- MODAL -->
     <div id="modal-overlay">
         <div id="modal-content">
             <button class="close-btn" onclick="closeModal()">✕</button>
-            <div id="registration-text"></div>
+
+            <!-- STEP 1: Track Selection -->
+            <div class="step active" id="step-track">
+                <p class="modal-title" id="step1-label">Which track works for you?</p>
+                <div class="track-options">
+                    <label class="track-option" id="opt-a">
+                        <input type="radio" name="track" value="A">
+                        <div class="track-label">
+                            <strong id="track-a-title">Track A — Wednesdays, 10:00–12:00</strong>
+                            <span id="track-a-sub">6-Week Morning Sprint</span>
+                        </div>
+                    </label>
+                    <label class="track-option" id="opt-b">
+                        <input type="radio" name="track" value="B">
+                        <div class="track-label">
+                            <strong id="track-b-title">Track B — Thursdays, 14:00–16:00</strong>
+                            <span id="track-b-sub">6-Week Afternoon Sprint</span>
+                        </div>
+                    </label>
+                    <label class="track-option" id="opt-c">
+                        <input type="radio" name="track" value="C">
+                        <div class="track-label">
+                            <strong id="track-c-title">Both tracks work for me</strong>
+                            <span id="track-c-sub">I'm flexible</span>
+                        </div>
+                    </label>
+                </div>
+                <p class="error-msg" id="track-error">Please select a track.</p>
+                <button class="modal-btn" onclick="goToStep2()" id="next-btn">Continue →</button>
+            </div>
+
+            <!-- STEP 2: Contact Details -->
+            <div class="step" id="step-contact">
+                <p class="modal-title" id="step2-label">Your contact details</p>
+                <div class="form-group">
+                    <label for="name" id="label-name">Name</label>
+                    <input type="text" id="name" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact" id="label-contact">Email or Phone (WhatsApp / Signal)</label>
+                    <input type="text" id="contact" placeholder="email@example.com or +49..." required>
+                </div>
+                <p class="error-msg" id="contact-error">Please fill in all fields.</p>
+                <button class="modal-btn" onclick="submitForm()" id="submit-btn">Send</button>
+                <button class="modal-btn secondary" onclick="goToStep1()">← Back</button>
+            </div>
+
+            <!-- CONFIRMATION -->
+            <div class="step" id="step-confirm">
+                <div id="confirmation"></div>
+                <button class="modal-btn" onclick="closeModal()" style="margin-top:2rem;" id="done-btn">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WAITLIST MODAL -->
+    <div id="waitlist-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.93); z-index:1000; justify-content:center; align-items:center; padding:2rem;">
+        <div style="background:#111; border:1px solid #444; padding:2.5rem; max-width:480px; width:100%; position:relative; font-family:Inter,sans-serif;">
+            <button onclick="closeWaitlist()" style="position:absolute;top:1rem;right:1.5rem;background:none;border:none;color:#c8f000;font-size:1.5rem;cursor:pointer;font-weight:900;">✕</button>
+            <p class="modal-title" id="waitlist-modal-label">Leave your details</p>
+            <div class="form-group">
+                <label for="w-name" id="wlabel-name">Name</label>
+                <input type="text" id="w-name" placeholder="Your name">
+            </div>
+            <div class="form-group">
+                <label for="w-contact" id="wlabel-contact">Email or Phone</label>
+                <input type="text" id="w-contact" placeholder="email@example.com or +49...">
+            </div>
+            <button class="modal-btn" onclick="submitWaitlist()">I'm interested</button>
         </div>
     </div>
 
     <script>
         let currentLang = 'en';
+        let selectedTrack = null;
 
         // Track selection highlight
         document.querySelectorAll('.track-option input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', () => {
                 document.querySelectorAll('.track-option').forEach(el => el.classList.remove('selected'));
                 radio.closest('.track-option').classList.add('selected');
+                selectedTrack = radio.value;
             });
         });
 
@@ -262,81 +249,79 @@
                 slogan: '"None of us want to. But somehow it has to move forward."',
                 labelWeeks: '6 Weeks', labelSession: 'Per Session', labelPeople: 'People',
                 dealLabel: 'THE DEAL', ctaBtn: 'Join',
-                formTitle: 'Register Your Spot',
-                labelName: 'Name', labelContact: 'Email or Phone (WhatsApp / Signal)',
-                labelTrack: 'Which track works for you?',
+                waitlistText: "Group is full? Leave your details and I'll reach out when a new round starts.",
+                waitlistBtn: 'Group is Full — Join Waitlist',
+                step1Label: 'Which track works for you?',
+                step2Label: 'Your contact details',
                 trackATitle: 'Track A — Wednesdays, 10:00–12:00', trackASub: '6-Week Morning Sprint',
                 trackBTitle: 'Track B — Thursdays, 14:00–16:00', trackBSub: '6-Week Afternoon Sprint',
-                trackCTitle: 'Both tracks work for me', trackCSub: "I'm flexible — put me wherever there's space",
-                waitlistText: "The current round is full? Drop your details and I'll reach out when the next one starts.",
-                waitlistBtn: 'Group is Full — Join Waitlist',
+                trackCTitle: 'Both tracks work for me', trackCSub: "I'm flexible",
+                labelName: 'Name', labelContact: 'Email or Phone (WhatsApp / Signal)',
+                nextBtn: 'Continue →', submitBtn: 'Send', doneBtn: 'Done',
+                waitlistModalLabel: 'Leave your details',
+                wlabelName: 'Name', wlabelContact: 'Email or Phone',
+                trackNames: { A: 'Track A (Wed 10–12)', B: 'Track B (Thu 14–16)', C: 'Both tracks' },
                 ordinals: ['1st', '2nd', '3rd', '4th', '5th'],
-                trackNames: { A: 'Track A (Wed, 10–12)', B: 'Track B (Thu, 14–16)', C: 'Both tracks' },
                 msg: (name, track, n) => `
                     <h2>You're in.</h2>
-                    <p>Hey <strong>${name}</strong> — you're the <strong>${copy.en.ordinals[n - 1]} participant</strong>.</p>
-                    <p>Preference noted: <strong>${copy.en.trackNames[track]}</strong>.</p>
-                    <p style="margin-top:1rem">Once the group is full (max 6), I'll contact you with:</p>
+                    <p>Hey <strong>${name}</strong> — you're the <strong>${copy.en.ordinals[n-1]} participant</strong>.</p>
+                    <p>Track preference: <strong>${copy.en.trackNames[track]}</strong>.</p>
+                    <p style="margin-top:1rem">Once the group is full (max 6), I'll reach out with:</p>
                     <ul>
                         <li>Confirmed start date & weekday</li>
                         <li>Payment details (€60 deposit — Wise)</li>
                         <li>Session login / location</li>
-                    </ul>
-                    <p style="margin-top:1rem">Stay loose.</p>`,
+                    </ul>`,
                 msgFull: (name, track) => `
                     <h2>Group is full.</h2>
                     <p>Hey <strong>${name}</strong> — you're the <strong>6th and final participant</strong>. We're starting soon.</p>
-                    <p>Preference noted: <strong>${copy.en.trackNames[track]}</strong>.</p>
+                    <p>Track preference: <strong>${copy.en.trackNames[track]}</strong>.</p>
                     <p style="margin-top:1rem">You'll receive shortly:</p>
                     <ul>
                         <li>Confirmed start date & weekday</li>
                         <li>Payment details (€60 deposit — Wise)</li>
                         <li>Session login / location</li>
-                    </ul>
-                    <p style="margin-top:1rem">I'll message everyone to lock in the start.</p>`,
-                waitlistMsg: (name) => `
-                    <h2>Waitlisted.</h2>
-                    <p>Got it, <strong>${name}</strong>. I'll reach out as soon as a new round is confirmed.</p>`
+                    </ul>`,
+                waitlistConfirm: (name) => `<h2>Noted.</h2><p>Got it, <strong>${name}</strong>. I'll reach out when the next round opens.</p>`
             },
             de: {
                 slogan: '„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."',
                 labelWeeks: '6 Wochen', labelSession: 'Pro Session', labelPeople: 'Personen',
                 dealLabel: 'DER DEAL', ctaBtn: 'Teilnehmen',
-                formTitle: 'Platz reservieren',
-                labelName: 'Name', labelContact: 'Email oder Telefon (WhatsApp / Signal)',
-                labelTrack: 'Welcher Track passt?',
+                waitlistText: 'Gruppe voll? Lass deine Kontaktdaten da und ich melde mich wenn die nächste Runde startet.',
+                waitlistBtn: 'Gruppe voll — Warteliste',
+                step1Label: 'Welcher Termin passt dir?',
+                step2Label: 'Deine Kontaktdaten',
                 trackATitle: 'Track A — Mittwoch, 10:00–12:00', trackASub: '6-Wochen Morgensprint',
                 trackBTitle: 'Track B — Donnerstag, 14:00–16:00', trackBSub: '6-Wochen Nachmittagssprint',
-                trackCTitle: 'Beide Tracks gehen', trackCSub: 'Ich bin flexibel – füll mich ein wo Platz ist',
-                waitlistText: 'Diese Runde ist voll? Lass deine Kontaktdaten da und ich melde mich wenn die nächste startet.',
-                waitlistBtn: 'Gruppe voll — zur Warteliste',
+                trackCTitle: 'Beide Tage passen mir', trackCSub: 'Ich bin flexibel',
+                labelName: 'Name', labelContact: 'Email oder Telefon (WhatsApp / Signal)',
+                nextBtn: 'Weiter →', submitBtn: 'Absenden', doneBtn: 'Fertig',
+                waitlistModalLabel: 'Kontaktdaten dalassen',
+                wlabelName: 'Name', wlabelContact: 'Email oder Telefon',
+                trackNames: { A: 'Track A (Mi 10–12)', B: 'Track B (Do 14–16)', C: 'Beide Tracks' },
                 ordinals: ['erste', 'zweite', 'dritte', 'vierte', 'fünfte'],
-                trackNames: { A: 'Track A (Mi, 10–12)', B: 'Track B (Do, 14–16)', C: 'Beide Tracks' },
                 msg: (name, track, n) => `
                     <h2>Du bist dabei.</h2>
-                    <p>Hey <strong>${name}</strong> — du bist die/der <strong>${copy.de.ordinals[n - 1]} Teilnehmende</strong>.</p>
-                    <p>Präferenz notiert: <strong>${copy.de.trackNames[track]}</strong>.</p>
+                    <p>Hey <strong>${name}</strong> — du bist die/der <strong>${copy.de.ordinals[n-1]} Teilnehmende</strong>.</p>
+                    <p>Terminwunsch: <strong>${copy.de.trackNames[track]}</strong>.</p>
                     <p style="margin-top:1rem">Sobald die Gruppe voll ist (max. 6), melde ich mich mit:</p>
                     <ul>
                         <li>Startermin & Wochentag</li>
                         <li>Bankverbindung (60€ – Wise)</li>
                         <li>Einwahldaten / Adresse</li>
-                    </ul>
-                    <p style="margin-top:1rem">Bis dann.</p>`,
+                    </ul>`,
                 msgFull: (name, track) => `
-                    <h2>Gruppe ist voll.</h2>
+                    <h2>Gruppe voll.</h2>
                     <p>Hey <strong>${name}</strong> — du bist die/der <strong>sechste und letzte Teilnehmende</strong>. Wir starten bald.</p>
-                    <p>Präferenz notiert: <strong>${copy.de.trackNames[track]}</strong>.</p>
+                    <p>Terminwunsch: <strong>${copy.de.trackNames[track]}</strong>.</p>
                     <p style="margin-top:1rem">Du bekommst in Kürze:</p>
                     <ul>
                         <li>Startermin & Wochentag</li>
                         <li>Bankverbindung (60€ – Wise)</li>
                         <li>Einwahldaten / Adresse</li>
-                    </ul>
-                    <p style="margin-top:1rem">Ich melde mich bei allen um den Start zu fixieren.</p>`,
-                waitlistMsg: (name) => `
-                    <h2>Warteliste.</h2>
-                    <p>Alles klar, <strong>${name}</strong>. Ich melde mich sobald eine neue Runde startet.</p>`
+                    </ul>`,
+                waitlistConfirm: (name) => `<h2>Notiert.</h2><p>Alles klar, <strong>${name}</strong>. Ich melde mich wenn eine neue Runde startet.</p>`
             }
         };
 
@@ -349,73 +334,93 @@
             document.getElementById('label-people').textContent = c.labelPeople;
             document.getElementById('deal-label').textContent = c.dealLabel;
             document.getElementById('cta-btn').textContent = c.ctaBtn;
-            document.getElementById('form-title').textContent = c.formTitle;
-            document.getElementById('label-name').textContent = c.labelName;
-            document.getElementById('label-contact').textContent = c.labelContact;
-            document.getElementById('label-track').textContent = c.labelTrack;
+            document.getElementById('waitlist-text').textContent = c.waitlistText;
+            document.getElementById('waitlist-btn').textContent = c.waitlistBtn;
+            document.getElementById('step1-label').textContent = c.step1Label;
+            document.getElementById('step2-label').textContent = c.step2Label;
             document.getElementById('track-a-title').textContent = c.trackATitle;
             document.getElementById('track-a-sub').textContent = c.trackASub;
             document.getElementById('track-b-title').textContent = c.trackBTitle;
             document.getElementById('track-b-sub').textContent = c.trackBSub;
             document.getElementById('track-c-title').textContent = c.trackCTitle;
             document.getElementById('track-c-sub').textContent = c.trackCSub;
-            document.getElementById('waitlist-text').textContent = c.waitlistText;
-            document.getElementById('waitlist-btn').textContent = c.waitlistBtn;
+            document.getElementById('label-name').textContent = c.labelName;
+            document.getElementById('label-contact').textContent = c.labelContact;
+            document.getElementById('next-btn').textContent = c.nextBtn;
+            document.getElementById('submit-btn').textContent = c.submitBtn;
+            document.getElementById('done-btn').textContent = c.doneBtn;
+            document.getElementById('waitlist-modal-label').textContent = c.waitlistModalLabel;
+            document.getElementById('wlabel-name').textContent = c.wlabelName;
+            document.getElementById('wlabel-contact').textContent = c.wlabelContact;
             document.getElementById('deal-text-de').style.display = lang === 'de' ? '' : 'none';
             document.getElementById('deal-text-en').style.display = lang === 'en' ? '' : 'none';
             document.getElementById('btn-de').classList.toggle('active', lang === 'de');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
 
-        function handleSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value.trim();
-            const contact = document.getElementById('contact').value.trim();
-            const track = document.querySelector('input[name="track"]:checked')?.value;
-            if (!name || !contact || !track) {
-                document.getElementById('submit-error').style.display = 'block';
-                return;
-            }
-            document.getElementById('submit-error').style.display = 'none';
-
-            let count = parseInt(localStorage.getItem('berlin-count') || '0');
-            count++;
-            if (count > 6) count = 1;
-            localStorage.setItem('berlin-count', count);
-
-            const c = copy[currentLang];
-            const html = count < 6 ? c.msg(name, track, count) : c.msgFull(name, track);
-            document.getElementById('registration-text').innerHTML = html;
-            document.getElementById('modal-overlay').style.display = 'flex';
-
-            // Send data via mailto
-            const subject = encodeURIComponent(`[Execution Berlin] New Registration — ${name}`);
-            const body = encodeURIComponent(`Name: ${name}\nContact: ${contact}\nTrack: ${track}\nParticipant #: ${count}`);
-            window.location.href = `mailto:benjamin.t.karcher@gmail.com?subject=${subject}&body=${body}`;
+        function showStep(id) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
 
-        function handleWaitlist() {
-            const name = prompt(currentLang === 'de' ? 'Dein Name:' : 'Your name:');
-            const contact = prompt(currentLang === 'de' ? 'Email oder Telefon:' : 'Email or phone:');
-            if (!name) return;
-
-            const c = copy[currentLang];
-            document.getElementById('registration-text').innerHTML = c.waitlistMsg(name);
+        function openForm() {
             document.getElementById('modal-overlay').style.display = 'flex';
-
-            const subject = encodeURIComponent(`[Execution Berlin] Waitlist — ${name}`);
-            const body = encodeURIComponent(`Name: ${name}\nContact: ${contact || 'not provided'}\nWAITLIST`);
-            window.location.href = `mailto:benjamin.t.karcher@gmail.com?subject=${subject}&body=${body}`;
+            showStep('step-track');
         }
 
         function closeModal() {
             document.getElementById('modal-overlay').style.display = 'none';
         }
 
-        // Start in English
+        function goToStep1() { showStep('step-track'); }
+
+        function goToStep2() {
+            if (!selectedTrack) {
+                document.getElementById('track-error').style.display = 'block';
+                return;
+            }
+            document.getElementById('track-error').style.display = 'none';
+            showStep('step-contact');
+        }
+
+        function submitForm() {
+            const name = document.getElementById('name').value.trim();
+            const contact = document.getElementById('contact').value.trim();
+            if (!name || !contact) {
+                document.getElementById('contact-error').style.display = 'block';
+                return;
+            }
+            document.getElementById('contact-error').style.display = 'none';
+
+            let count = parseInt(localStorage.getItem('berlin-count') || '0');
+            count++; if (count > 6) count = 1;
+            localStorage.setItem('berlin-count', count);
+
+            const c = copy[currentLang];
+            document.getElementById('confirmation').innerHTML = count < 6 ? c.msg(name, selectedTrack, count) : c.msgFull(name, selectedTrack);
+            showStep('step-confirm');
+
+            const subject = encodeURIComponent(`[Execution Berlin] ${name} — Track ${selectedTrack}`);
+            const body = encodeURIComponent(`Name: ${name}\nContact: ${contact}\nTrack: ${selectedTrack}\nParticipant #: ${count}`);
+            window.location.href = `mailto:benjamin.t.karcher@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        function openWaitlist() { document.getElementById('waitlist-overlay').style.display = 'flex'; }
+        function closeWaitlist() { document.getElementById('waitlist-overlay').style.display = 'none'; }
+
+        function submitWaitlist() {
+            const name = document.getElementById('w-name').value.trim();
+            const contact = document.getElementById('w-contact').value.trim();
+            if (!name) return;
+            closeWaitlist();
+            const subject = encodeURIComponent(`[Execution Berlin] Waitlist — ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nContact: ${contact}\nWAITLIST`);
+            window.location.href = `mailto:benjamin.t.karcher@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        // Init English
         setLang('en');
     </script>
 
 </body>
-
 </html>
