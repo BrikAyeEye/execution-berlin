@@ -1,0 +1,248 @@
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #e8e8e8;
+    --accent-color: #c8f000;
+    /* Berlin neon green */
+    --border-color: #c8f000;
+    --sub-color: #555555;
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    display: flex;
+    justify-content: center;
+    padding: 3rem 2rem;
+    min-height: 100vh;
+}
+
+main {
+    max-width: 680px;
+    width: 100%;
+}
+
+.header {
+    margin-bottom: 4rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 2rem;
+}
+
+.eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+}
+
+.title em {
+    font-style: normal;
+    color: var(--accent-color);
+}
+
+.slogan {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #999;
+    font-style: italic;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: #222;
+    border: 1px solid #222;
+    margin-bottom: 3rem;
+}
+
+.stat-item {
+    background: var(--bg-color);
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.stat-value {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 900;
+    display: block;
+    white-space: nowrap;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sub-color);
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.rule-block {
+    border-left: 4px solid var(--accent-color);
+    padding: 1.5rem 2rem;
+    background: #111;
+    margin-bottom: 3rem;
+}
+
+.rule-title {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.rule-block p {
+    line-height: 1.8;
+    margin-bottom: 0.5rem;
+}
+
+.rule-block strong {
+    color: #fff;
+}
+
+.fine-print {
+    font-size: 0.8rem;
+    color: var(--sub-color);
+    margin-top: 1rem;
+}
+
+.lang-toggle {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    font-size: 0.8rem;
+}
+
+.lang-btn {
+    cursor: pointer;
+    background: none;
+    border: 1px solid #333;
+    color: #999;
+    padding: 0.3rem 0.75rem;
+    font-family: var(--font-body);
+}
+
+.lang-btn.active {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.cta {
+    display: block;
+    background-color: var(--accent-color);
+    color: #000;
+    text-align: center;
+    padding: 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 1.25rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+}
+
+.cta:hover {
+    background-color: #fff;
+}
+
+/* Modal */
+#modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+#modal-content {
+    background: #111;
+    border: 1px solid var(--accent-color);
+    padding: 2.5rem;
+    max-width: 580px;
+    width: 100%;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    background: none;
+    border: none;
+}
+
+#registration-text h2 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+
+#registration-text p {
+    line-height: 1.8;
+    margin-bottom: 0.75rem;
+    color: #ccc;
+}
+
+#registration-text strong {
+    color: #fff;
+}
+
+#registration-text ul {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+    color: #ccc;
+}
+
+#registration-text li {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 500px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}

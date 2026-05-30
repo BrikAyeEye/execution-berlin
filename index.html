@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXECUTION BERLIN | Work Session Collective</title>
+    <meta name="description"
+        content="6 weeks of focused work. Once a week. €60 in, €30 back if you show up. Berlin / Online.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&family=Inter:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <main>
+        <div class="header">
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+                <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+            </div>
+            <p class="eyebrow">Berlin / Online</p>
+            <h1 class="title">EXECUTION<br><em>BERLIN</em></h1>
+            <p class="slogan" id="slogan">„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."</p>
+        </div>
+
+        <section class="stats">
+            <div class="stat-item">
+                <span class="stat-value">1× / WOCHE</span>
+                <span class="stat-label" id="label-weeks">6 Wochen</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">2 STD</span>
+                <span class="stat-label" id="label-session">Pro Session</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">6 MAX</span>
+                <span class="stat-label" id="label-people">Personen</span>
+            </div>
+        </section>
+
+        <section class="rule-block">
+            <p class="rule-title" id="deal-label">DER DEAL</p>
+            <div id="deal-text-de">
+                <p><strong>60€ Pfand-Einsatz-Mischung.</strong></p>
+                <p>Erscheine zu mindestens 5 von 6 Terminen und du bekommst <strong>30€ digital auf die Kralle</strong>
+                    zurück.</p>
+                <p class="fine-print">Wird keiner reich von, keiner arm..</p>
+            </div>
+            <div id="deal-text-en" style="display:none;">
+                <p><strong>€60 deposit.</strong></p>
+                <p>Show up to at least 5 of 6 sessions and get <strong>€30 back digitally</strong>.</p>
+                <p class="fine-print">No one gets rich from this. No one goes broke.</p>
+            </div>
+        </section>
+
+        <button class="cta" onclick="register()" id="cta-btn">Teilnehmen</button>
+    </main>
+
+    <div id="modal-overlay">
+        <div id="modal-content">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <div id="registration-text"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'de';
+
+        const copy = {
+            de: {
+                slogan: '„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."',
+                labelWeeks: '6 Wochen',
+                labelSession: 'Pro Session',
+                labelPeople: 'Personen',
+                dealLabel: 'DER DEAL',
+                ctaBtn: 'Teilnehmen',
+                ordinals: ['erste', 'zweite', 'dritte', 'vierte', 'fünfte'],
+                msg: (n) => `
+                    <h2>Danke!</h2>
+                    <p>Du bist die/der <strong>${copy.de.ordinals[n - 1]} Teilnehmende</strong> für diese Runde.</p>
+                    <p>Sobald die Gruppe voll ist (max. 6), melde ich mich mit:</p>
+                    <ul>
+                        <li>Startermin & Wochentag</li>
+                        <li>Bankverbindung (60€ Einwurf – Wise)</li>
+                        <li>Einwahldaten / Adresse</li>
+                    </ul>
+                    <p>Ich melde mich, sobald wir vollzählig sind.</p>`,
+                msgFull: () => `
+                    <h2>Die Gruppe ist voll.</h2>
+                    <p>Du bist die/der <strong>sechste und letzte Teilnehmende</strong>. Wir legen zeitnah los.</p>
+                    <p>Du bekommst in Kürze:</p>
+                    <ul>
+                        <li>Startermin & Wochentag</li>
+                        <li>Bankverbindung (60€ Einwurf – Wise)</li>
+                        <li>Einwahldaten / Adresse</li>
+                    </ul>
+                    <p>Ich melde mich direkt bei dir und den anderen.</p>`
+            },
+            en: {
+                slogan: '"None of us want to. But somehow it has to move forward."',
+                labelWeeks: '6 Weeks',
+                labelSession: 'Per Session',
+                labelPeople: 'People Max',
+                dealLabel: 'THE DEAL',
+                ctaBtn: 'Join',
+                ordinals: ['1st', '2nd', '3rd', '4th', '5th'],
+                msg: (n) => `
+                    <h2>Thanks!</h2>
+                    <p>You are the <strong>${copy.en.ordinals[n - 1]} participant</strong> for this round.</p>
+                    <p>Once the group is full (max 6), I'll reach out with:</p>
+                    <ul>
+                        <li>Start date & weekday</li>
+                        <li>Payment details (€60 deposit – Wise)</li>
+                        <li>Login / address for sessions</li>
+                    </ul>
+                    <p>I'll be in touch once we're all in.</p>`,
+                msgFull: () => `
+                    <h2>Group is full.</h2>
+                    <p>You are the <strong>6th and final participant</strong>. We start soon.</p>
+                    <p>You'll receive shortly:</p>
+                    <ul>
+                        <li>Start date & weekday</li>
+                        <li>Payment details (€60 deposit – Wise)</li>
+                        <li>Login / address for sessions</li>
+                    </ul>
+                    <p>I'll message you and the group to lock in the start.</p>`
+            }
+        };
+
+        function setLang(lang) {
+            currentLang = lang;
+            const c = copy[lang];
+            document.getElementById('slogan').textContent = c.slogan;
+            document.getElementById('label-weeks').textContent = c.labelWeeks;
+            document.getElementById('label-session').textContent = c.labelSession;
+            document.getElementById('label-people').textContent = c.labelPeople;
+            document.getElementById('deal-label').textContent = c.dealLabel;
+            document.getElementById('cta-btn').textContent = c.ctaBtn;
+            document.getElementById('deal-text-de').style.display = lang === 'de' ? '' : 'none';
+            document.getElementById('deal-text-en').style.display = lang === 'en' ? '' : 'none';
+            document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        }
+
+        function register() {
+            let count = parseInt(localStorage.getItem('berlin-count') || '0');
+            count++;
+            if (count > 6) count = 1;
+            localStorage.setItem('berlin-count', count);
+
+            const c = copy[currentLang];
+            const html = count < 6 ? c.msg(count) : c.msgFull();
+            document.getElementById('registration-text').innerHTML = html;
+            document.getElementById('modal-overlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+        }
+    </script>
+
+</body>
+
+</html>
