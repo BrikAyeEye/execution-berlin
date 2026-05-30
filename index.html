@@ -294,7 +294,7 @@
         const copy = {
             en: {
                 slogan: '"None of us want to. But somehow it has to move forward."',
-                labelWeeks: '6 Weeks', labelSession: 'Per Séance', labelPeople: 'People',
+                labelWeeks: '6 Weeks', labelSession: 'Per Sprint', labelPeople: 'People',
                 dealLabel: 'THE DEAL',
                 step1Label: 'Which track works for you?',
                 step2Label: 'Your contact details',
@@ -314,7 +314,7 @@
                 ctaBtnEmpty: "Join",
                 ctaBtnFull: "Full — Waitlist",
                 infoTitle: "What's this?",
-                infoText: "A focused co-working séance. Online. But we also want to experience something: We work focused on our projects for 2 hours (cameras on, mics off), but meet before and after for a short, moderated chat. No isolated grinding—just collaborative momentum. The deposit makes sure everyone actually shows up.",
+                infoText: "It is a focused co-working séance. Online. We meet once a week for 2 hours to work on our projects. The deposit makes sure everyone actually shows up.",
                 msg: (name, track, n) => `
                     <h2>You're in.</h2>
                     <p>Hey <strong>${name}</strong> — you're the <strong>${copy.en.ordinals[n-1]} participant</strong>.</p>
@@ -323,7 +323,7 @@
                     <ul>
                         <li>Confirmed start date & weekday</li>
                         <li>Payment details (€90 deposit — Wise)</li>
-                        <li>Séance login / location</li>
+                        <li>Sprint login / location</li>
                     </ul>`,
                 msgFull: (name, track) => `
                     <h2>Group is full.</h2>
@@ -333,13 +333,13 @@
                     <ul>
                         <li>Confirmed start date & weekday</li>
                         <li>Payment details (€90 deposit — Wise)</li>
-                        <li>Séance login / location</li>
+                        <li>Sprint login / location</li>
                     </ul>`,
                 waitlistConfirm: (name) => `<h2>Noted.</h2><p>Got it, <strong>${name}</strong>. I'll reach out when the next round opens.</p>`
             },
             de: {
                 slogan: '„Wollen wir alle nicht, aber irgendwie muss es ja weitergehen."',
-                labelWeeks: '6 Wochen', labelSession: 'Pro Séance', labelPeople: 'Personen',
+                labelWeeks: '6 Wochen', labelSession: 'Pro Sprint', labelPeople: 'Personen',
                 dealLabel: 'DER DEAL',
                 step1Label: 'Welcher Termin passt dir?',
                 step2Label: 'Deine Kontaktdaten',
@@ -359,7 +359,7 @@
                 ctaBtnEmpty: "Teilnehmen",
                 ctaBtnFull: "Ausgebucht / Warteliste",
                 infoTitle: "Was'n das?",
-                infoText: "Es ist eine fokussierte Co-Working Séance. Online. Aber wir wollen doch was erleben: Wir arbeiten 2 Stunden lang konzentriert an unseren Projekten (Kameras an, Mics aus), treffen uns aber davor und danach für einen kurzen, moderierten Austausch. Keine einsame Isolation, sondern produktives Miteinander. Der Pfand sorgt dafür, dass alle auch wirklich erscheinen.",
+                infoText: "Es ist eine fokussierte Co-Working Séance. Online. Wir treffen uns einmal die Woche für 2 Stunden, um an unseren Projekten zu arbeiten. Der Pfand sorgt dafür, dass alle auch wirklich erscheinen.",
                 msg: (name, track, n) => `
                     <h2>Du bist dabei.</h2>
                     <p>Hey <strong>${name}</strong> — du bist die/der <strong>${copy.de.ordinals[n-1]} Teilnehmende</strong>.</p>
