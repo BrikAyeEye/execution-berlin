@@ -20,7 +20,8 @@ body {
     color: var(--text-color);
     font-family: var(--font-body);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     padding: 3rem 2rem;
     min-height: 100vh;
 }
